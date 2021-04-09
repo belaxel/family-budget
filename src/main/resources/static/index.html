@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<form action="#">
+    <input id="expense_time" type="datetime-local" placeholder="Время">
+    <input id="expense_name" placeholder="Наименование">
+    <input id="expense_amount" type="number" placeholder="Расход">
+    <input id="expense_consumer" list="consumersList" placeholder="Потребитель">
+        <datalist id="consumersList"></datalist>
+    <input id="expense_organization" list="organizationsList" placeholder="Организация">
+        <datalist id="organizationsList"></datalist>
+    <input id="expense_category" list="categoriesList" placeholder="Категория">
+        <datalist id="categoriesList"></datalist>
+    <button onclick="createExpense()">Создать</button>
+</form>
+<hr>
+<table id="expensesList"></table>
+
+<script>
+    function deleteExpense(expenseId) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("DELETE", "http://localhost:8080/expenses/delete/" + expenseId, true);
+        xhttp.send();
+        load();
+        location.reload();
+    }
+
+    function createExpense() {
+        var expenseTime = document.getElementById("expense_time").value;
+        var expenseName = document.getElementById("expense_name").value;
+        var expenseAmount = document.getElementById("expense_amount").value;
+        var expenseConsumer = document.getElementById("expense_consumer").value;
+        var expenseOrganization = document.getElementById("expense_organization").value;
+        var expenseCategory = document.getElementById("expense_category").value;
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST", "http://localhost:8080/expenses/save");
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.send(JSON.stringify({
+            time: expenseTime,
+            name: expenseName,
+            amount: expenseAmount,
+            consumer: expenseConsumer,
+            organization: expenseOrganization,
+            category: expenseCategory
+        }));
+
+        load();
+        location.reload();
+    }
+
+    function loadExpenses() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var expenses = JSON.parse(this.responseText);
+                var html = '<tr>\n' +
+                    '        <th>ID</th>\n' +
+                    '        <th>Время</th>\n' +
+                    '        <th>Наименование</th>\n' +
+                    '        <th>Расход</th>\n' +
+                    '        <th>Потребитель</th>\n' +
+                    '        <th>Организация</th>\n' +
+                    '        <th>Категория</th>\n' +
+                    '        <th>Удалить</th>\n' +
+                    '    </tr>';
+                for (var i = 0; i < expenses.length; i++) {
+                    var expense = expenses[i];
+                    console.log(expense);
+                    html = html + '<tr><td>' + expense.id + '</td>\n' +
+                        '        <td>' + expense.time + '</td>\n' +
+                        '        <td>' + expense.name + '</td>\n' +
+                        '        <td>' + expense.amount + '</td>\n' +
+                        '        <td>' + expense.consumer + '</td>' +
+                        '        <td>' + expense.organization + '</td>' +
+                        '        <td>' + expense.category + '</td>' +
+                        '        <td><button onclick="deleteExpense(' + expense.id + ')">Удалить</button></td></tr>';
+
+                }
+                document.getElementById("expensesList").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "http://localhost:8080/expenses/findAllExpenses", true);
+        xhttp.send();
+    }
+
+    function loadConsumers() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var consumers = JSON.parse(this.responseText);
+                var html = '';
+                for (var i = 0; i < consumers.length; i++) {
+                    var consumer = consumers[i];
+                    console.log(consumer);
+                    html = html + '<option value="' + consumer + '">' + consumer + '</option>';
+                }
+                document.getElementById("consumersList").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "http://localhost:8080/expenses/findAllConsumersName", true);
+        xhttp.send();
+    }
+
+    function loadOrganizations() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var organizations = JSON.parse(this.responseText);
+                var html = '';
+                for (var i = 0; i < organizations.length; i++) {
+                    var organization = organizations[i];
+                    console.log(organization);
+                    html = html + '<option value="' + organization + '">' + organization + '</option>';
+                }
+                document.getElementById("organizationsList").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "http://localhost:8080/expenses/findAllOrganizationsName", true);
+        xhttp.send();
+    }
+
+    function loadCategories() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var categories = JSON.parse(this.responseText);
+                var html = '';
+                for (var i = 0; i < categories.length; i++) {
+                    var category = categories[i];
+                    console.log(category);
+                    html = html + '<option value="' + category + '">' + category + '</option>';
+                }
+                document.getElementById("categoriesList").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "http://localhost:8080/expenses/findAllCategoriesName", true);
+        xhttp.send();
+    }
+
+    function load() {
+        loadConsumers();
+        loadOrganizations();
+        loadCategories();
+        loadExpenses();
+    }
+
+    load();
+</script>
+</body>
+</html>
