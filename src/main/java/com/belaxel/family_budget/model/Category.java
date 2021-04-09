@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "categories")
@@ -20,9 +20,9 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Collection<Expense> expenses;
+    private List<Expense> expenses;
 
     @ManyToMany(mappedBy = "categories")
-    private Collection<Organization> organizations;
+    private List<Organization> organizations;
 
 }

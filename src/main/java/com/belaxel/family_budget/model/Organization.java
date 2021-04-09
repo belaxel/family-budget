@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "organizations")
@@ -20,7 +20,7 @@ public class Organization {
     private String name;
 
     @OneToMany(mappedBy = "organization", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Collection<Expense> expenses;
+    private List<Expense> expenses;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
@@ -28,6 +28,6 @@ public class Organization {
             joinColumns = { @JoinColumn(name = "organization_id") },
             inverseJoinColumns = { @JoinColumn(name = "category_id") }
     )
-    private Collection<Category> categories;
+    private List<Category> categories;
 
 }

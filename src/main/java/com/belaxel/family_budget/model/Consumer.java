@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "consumers")
@@ -20,6 +20,6 @@ public class Consumer {
     private String name;
 
     @OneToMany(mappedBy = "consumer", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Collection<Expense> expenses;
+    private List<Expense> expenses;
 
 }
