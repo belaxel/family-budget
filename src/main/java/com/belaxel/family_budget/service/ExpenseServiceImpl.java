@@ -3,16 +3,17 @@ package com.belaxel.family_budget.service;
 import com.belaxel.family_budget.model.Expense;
 import com.belaxel.family_budget.repository.ExpenseRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class ExpenseServiceImpl implements ExpenseService {
 
-    private final ExpenseRepository expenseRepository;
+    @Autowired
+    private ExpenseRepository expenseRepository;
 
     @Override
     public Expense saveExpense(Expense expense) {
@@ -26,7 +27,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public List<Expense> findAll() {
-        List<Expense> expenses = new ArrayList<Expense>();
+        List<Expense> expenses = new ArrayList<>();
         expenseRepository.findAll().forEach(expenses::add);
         return expenses;
     }

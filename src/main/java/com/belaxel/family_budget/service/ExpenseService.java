@@ -2,7 +2,7 @@ package com.belaxel.family_budget.service;
 
 import com.belaxel.family_budget.model.Expense;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface ExpenseService {
 
@@ -10,6 +10,6 @@ public interface ExpenseService {
 
     void deleteExpense(Integer expenseId);
 
-    Collection<Expense> findAll();
+    List<Expense> findAll();
 
 }
