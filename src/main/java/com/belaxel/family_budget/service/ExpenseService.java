@@ -1,9 +1,6 @@
 package com.belaxel.family_budget.service;
 
 import com.belaxel.family_budget.dto.ExpenseDto;
-import com.belaxel.family_budget.model.Category;
-import com.belaxel.family_budget.model.Consumer;
-import com.belaxel.family_budget.model.Organization;
 
 import java.util.List;
 

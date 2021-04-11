@@ -9,17 +9,12 @@ import com.belaxel.family_budget.repository.CategoryRepository;
 import com.belaxel.family_budget.repository.ConsumerRepository;
 import com.belaxel.family_budget.repository.ExpenseRepository;
 import com.belaxel.family_budget.repository.OrganizationRepository;
-import jdk.nashorn.internal.runtime.regexp.joni.Option;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
-import static java.util.Objects.isNull;
 
 @Service
 public class ExpenseServiceImpl implements ExpenseService {

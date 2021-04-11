@@ -1,7 +1,6 @@
 package com.belaxel.family_budget.controller;
 
 import com.belaxel.family_budget.dto.ExpenseDto;
-import com.belaxel.family_budget.model.Consumer;
 import com.belaxel.family_budget.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
